@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "remult": "^0.22.6",
     "vue": "^3.3.4"
   },
   "devDependencies": {
