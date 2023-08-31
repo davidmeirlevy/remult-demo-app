@@ -1,13 +1,14 @@
 import {ref} from 'vue';
-
+import remult from './remult-service.ts';
 
 export const user = ref();
 export const loaded = ref(false);
 
 export async function fetchUser() {
   try {
-    user.value = JSON.parse(localStorage.getItem('user'));
-
+    const res = await fetch('/api/user-profile')
+    user.value = await res.json()
+    remult.user = user.value;
     return user.value;
   } catch {
     return null;
@@ -17,13 +18,17 @@ export async function fetchUser() {
 }
 
 export async function login(username: string) {
-  localStorage.setItem('user', JSON.stringify({
-    username,
-  }));
+  await fetch('/api/login', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({username})
+  })
   fetchUser();
 }
 
 export async function logout() {
-  localStorage.removeItem('user');
+  await fetch('/api/logout', {method: 'post'})
   user.value = null;
 }
