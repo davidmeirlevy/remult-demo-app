@@ -1,7 +1,10 @@
-import {Allow, Entity, Fields} from 'remult'
+import {Allow, Entity, Fields, remult} from 'remult'
 
 @Entity("todos", {
-  allowApiCrud: Allow.authenticated
+  allowApiCrud: Allow.authenticated,
+  apiPrefilter: () => ({
+    user: remult.user.id
+  })
 })
 export class TodoEntity {
   @Fields.cuid()
@@ -16,6 +19,8 @@ export class TodoEntity {
   @Fields.createdAt()
   createdAt?: Date
 
-  @Fields.string()
-  user = "";
+  @Fields.string({
+    allowApiUpdate: false
+  })
+  user = remult.user.id;
 }
