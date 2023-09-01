@@ -15,4 +15,7 @@ export class TodoEntity {
 
   @Fields.createdAt()
   createdAt?: Date
+
+  @Fields.string()
+  user = "";
 }

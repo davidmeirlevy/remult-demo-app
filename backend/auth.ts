@@ -24,6 +24,11 @@ export async function authorizePlugin(server: FastifyInstance) {
     const token = request.cookies.token;
     if (token) {
       request.user = JSON.parse(atob(token));
+
+      request.query.user = request.user.id;
+      if (request.body) {
+        request.body.user = request.user.id;
+      }
     }
   })
 
